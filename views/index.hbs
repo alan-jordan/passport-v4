@@ -5,4 +5,11 @@
   <label for=password>Password</label>
   <input type="password" name="password" placeholder="password"/>
   <input type="submit" value="Login"/>
+  <a href='/signup'>Sign Up</a>
+  <br/>
+  <ul>
+    {{#each users}}
+      <li>{{name}} ({{email}})</li>
+    {{/each}}
+    </ul>
 </form>

@@ -21,12 +21,12 @@ module.exports = function (app) {
   },
 
     function(email, password, done) {
-        db.findByEmail(email, connection)
+        db.getUserByEmail(email, connection)
         .then (function(user) {
           if (!user) {
             return done(null, false, {message: 'User is not found'});
           }
-          if (!helpers.comparePassword(password, user.password)) {
+          if (!db.checkPassword(password, user.password)) {
             return done(null, false, {message: 'Incorrect Password'});
           }
           return done(null, user)
@@ -41,7 +41,7 @@ module.exports = function (app) {
 
   passport.deserializeUser(function(id, done) {
     console.log('deserialize');
-    db.findById(id, connection)
+    db.getUser (id, connection)
       .then(function(user) {
         console.log("deserialized user", {user});
         done(null, user)

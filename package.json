@@ -1,0 +1,48 @@
+{
+  "name": "boilerplate-knex",
+  "version": "0.1.2",
+  "description": "Express boilerplate with Knex.js",
+  "main": "index.js",
+  "scripts": {
+    "knex": "knex",
+    "dev": "nodemon index",
+    "start": "node index",
+    "debug": "node --inspect --debug-brk index.js",
+    "test": "ava -v tests/*.test.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dev-academy-challenges/boilerplate-knex.git"
+  },
+  "keywords": [
+    "eda",
+    "boilerplate"
+  ],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/dev-academy-challenges/boilerplate-knex/issues"
+  },
+  "homepage": "https://github.com/dev-academy-challenges/boilerplate-knex#readme",
+  "devDependencies": {
+    "ava": "^0.18.0",
+    "cheerio": "^0.22.0",
+    "connect-flash": "^0.1.1",
+    "nodemon": "^1.11.0",
+    "sqlite3": "^3.1.8",
+    "supertest": "^3.0.0"
+  },
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "body-parser": "^1.16.0",
+    "cookie-parser": "^1.4.3",
+    "express": "^4.14.1",
+    "express-handlebars": "^3.0.0",
+    "express-session": "^1.15.3",
+    "knex": "^0.12.6",
+    "passport": "^0.3.2",
+    "passport-facebook": "^2.1.1",
+    "passport-local": "^1.0.0"
+  }
+}
+

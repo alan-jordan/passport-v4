@@ -4,8 +4,13 @@ var passport = require('passport')
 var helpers = require('../lib/helpers')
 var db = require('../lib/db')
 
-router.get('/', function (req, res) {
-  res.send('index')
+router.get('/', (req, res) => {
+  res.render('index')
 })
+
+router.get('/signup', (req, res) => {
+  res.render('signup')
+})
+
 
 module.exports = router

@@ -4,6 +4,24 @@ var passport = require('passport')
 var helpers = require('../lib/helpers')
 var db = require('../lib/db')
 
+function ensureAuthenticated (req, res, next) {
+  if (req.isAuthenticated()) {
+    return next()
+  } else {
+    res.redirect('/login')
+  }
+}
+
+function isAuthorisedUser (req, res, next) {
+  if (!req.user){
+  res.redirect('/login')
+  } else if (req.user.id == req.params.id ) {
+    return next()
+  } else {
+    res.redirect('/not-authorised')
+  }
+}
+
 router.get('/', (req, res) => {
   db.getUsers(req.app.get('connection'))
   .then((users) => {
@@ -31,12 +49,17 @@ router.post('/signup', (req, res) => {
 router.post('/login',
   passport.authenticate('local', {
     successRedirect: '/resource',
-    failureRedirect: '/login'
+    failureRedirect: '/'
   })
 )
 
 router.get('/logout', (req, res) => {
-  res.status(200).send('Logged out')
+  req.logout()
+  res.redirect('/')
+})
+
+router.get('/resource', ensureAuthenticated, function (req, res) {
+    res.render('resource', {user: req.user})
 })
 
 module.exports = router

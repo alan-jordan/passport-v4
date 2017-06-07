@@ -22,28 +22,22 @@ module.exports = function (app) {
 
     function(email, password, done) {
         db.getUserByEmail(email, connection)
-        .then (function(user) {
-          if (!user) {
-            return done(null, false, {message: 'User is not found'});
-          }
-          if (!db.checkPassword(password, user.password)) {
-            return done(null, false, {message: 'Incorrect Password'});
-          }
-          return done(null, user)
-        })
+          .then (function(user) {
+            if (!user) {
+              return done(null, false, {message: 'User is not found'})
+            }
+            db.checkPassword(password, user.password) ? done(null, user) : done(null, false, {message: 'Incorrect Password'})
+          })
     })
   )
 
   passport.serializeUser(function(user, done) {
-    console.log('seriialize');
     done(null, user.id);
   })
 
   passport.deserializeUser(function(id, done) {
-    console.log('deserialize');
     db.getUser (id, connection)
       .then(function(user) {
-        console.log("deserialized user", {user});
         done(null, user)
       })
       .catch(done)

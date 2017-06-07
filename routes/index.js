@@ -8,13 +8,13 @@ function ensureAuthenticated (req, res, next) {
   if (req.isAuthenticated()) {
     return next()
   } else {
-    res.redirect('/login')
+    res.redirect('/')
   }
 }
 
 function isAuthorisedUser (req, res, next) {
   if (!req.user){
-  res.redirect('/login')
+  res.redirect('/')
   } else if (req.user.id == req.params.id ) {
     return next()
   } else {
@@ -25,7 +25,7 @@ function isAuthorisedUser (req, res, next) {
 router.get('/', (req, res) => {
   db.getUsers(req.app.get('connection'))
   .then((users) => {
-    res.render('index', {users: users})
+    res.render('index', {users: users, message: req.flash('error')})
   })
   .catch(function (err) {
     res.status(500).send('DATABASE ERROR: ' + err.message)
@@ -49,7 +49,8 @@ router.post('/signup', (req, res) => {
 router.post('/login',
   passport.authenticate('local', {
     successRedirect: '/resource',
-    failureRedirect: '/'
+    failureRedirect: '/',
+    failureFlash: true
   })
 )
 

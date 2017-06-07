@@ -20,15 +20,18 @@ module.exports = function (app) {
     usernameField: 'email'
   },
 
-    function(email, password, done) {
-        db.getUserByEmail(email, connection)
-          .then (function(user) {
-            if (!user) {
-              return done(null, false, {message: 'User is not found'})
-            }
-            db.checkPassword(password, user.password) ? done(null, user) : done(null, false, {message: 'Incorrect Password'})
-          })
-    })
+  function(email, password, done) {
+      db.getUserByEmail(email, connection)
+        .then (function(user) {
+          if (!user) {
+            return done(null, false, {message: 'User is not found'})
+          }
+          db.checkPassword(password, user.password)
+            .then((result) => {
+              result ? done(null, user) : done(null, false, {message: 'Incorrect Password'})
+            })
+        })
+  })
   )
 
   passport.serializeUser(function(user, done) {
